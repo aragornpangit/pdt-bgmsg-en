@@ -9,7 +9,7 @@ The SPEC is **the product department's only deliverable document** and the start
 ```markdown
 # SPEC: {feature title}
 
-- Number: {seq} | Version: v1 | Written: {YYYY-MM-DD HH:MM:SS}
+- Number: {spec-seq} | Version: v1 | Written: {YYYY-MM-DD HH:MM:SS}
 - Preceding SPEC: {related number, delete this line if none}
 
 ## 1. Problem Statement
@@ -69,7 +69,7 @@ Use the naming already present in the project's `CONTEXT.md` (or domain glossary
 
 **Substantive revisions (the problem, solution, or scope is replaced wholesale, or a convention is changed by arbitration) bump the version into a new file** (naming in "File naming" of [`group-conventions.md`](group-conventions.md)):
 
-1. The new file gets version number `v{N+1}`, the timestamp of the new write, and the same `{seq}`
+1. The new file gets version number `v{N+1}`, the timestamp of the new write, and the same `{spec-seq}`
 2. Mark the old file's header in place as "superseded by vX" (a trace vs. a residue: the old wording is explicitly voided, not deleted to pretend it never happened)
 
 ## Disposable after use

@@ -1,16 +1,16 @@
 # Test department (test) templates (TM)
 
-**One requirement, one file**: `docs/test/report/{seq}-testReport-{semantic-slug}-{timestamp}-v{N}.md` (naming see [`../pm/group-conventions.md`](../pm/group-conventions.md) "file naming", seq follows the SPEC's sequence number), **cases and results live in the same file**. **Update in place within a version** (appending cases does not rename); a substantive revision bumps the version into a new file. **40 lines baseline, may moderately exceed** (if exceeded, delete redundancy first; when nothing can be deleted, register the reason in the file header).
+**One requirement, one file**: `docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v{N}.md` (naming see [`../pm/group-conventions.md`](../pm/group-conventions.md) "file naming", seq follows the SPEC's sequence number), **cases and results live in the same file**. **Update in place within a version** (appending cases does not rename); a substantive revision bumps the version into a new file. **40 lines baseline, may moderately exceed** (if exceeded, delete redundancy first; when nothing can be deleted, register the reason in the file header).
 
-There is no separate test plan document: cases go straight into the case table of the report. Evidence has two layers: conclusion evidence is inlined in the table as `file:line`; host-side machine-check evidence (`selftest` logs, machine-check output) goes into the repo at `docs/test/evidence/{seq}-testReport-{semantic-slug}-ev/` (restored, for TM archiving only; one directory per seq, a report version bump does not change the directory).
+There is no separate test plan document: cases go straight into the case table of the report. Evidence has two layers: conclusion evidence is inlined in the table as `file:line`; host-side machine-check evidence (`selftest` logs, machine-check output) goes into the repo at `docs/test/evidence/{spec-seq}-testReport-{semantic-slug}-ev/` (restored, for TM archiving only; one directory per seq, a report version bump does not change the directory).
 
 ## Template
 
 ```markdown
 # Test report: {feature title}
 
-- Number: {seq} | Version: v{N} | Related SPEC: `docs/pd/spec/{seq}-spec-*.md`
-- Related development plan: `docs/dev/plan/{seq}-devPlan-*.md` | Build gate: {result}
+- Number: {spec-seq} | Version: v{N} | Related SPEC: `docs/pd/spec/{spec-seq}-spec-*.md`
+- Related development plan: `docs/dev/plan/{spec-seq}-devPlan-*.md` | Build gate: {result}
 
 ## Cases and results
 
@@ -41,7 +41,7 @@ Case categories (`XX` customized per SPEC topic): `XX-CODE` code review (Spec + 
 ```
 Role: te, test execution agent, not TM; no subagent tool, must not dispatch subagents. Reports to TM only, does not contact pm/dm or other te agents.
 
-Boundary: review and verify only, modifying any business code is forbidden (during defect diagnosis add test / reproduction scripts only); do not change the test report; evidence is inlined in the return message, do not write any file to disk (host-side machine-check evidence that needs to be kept is archived by TM into `docs/test/evidence/{seq}-testReport-{semantic-slug}-ev/`).
+Boundary: review and verify only, modifying any business code is forbidden (during defect diagnosis add test / reproduction scripts only); do not change the test report; evidence is inlined in the return message, do not write any file to disk (host-side machine-check evidence that needs to be kept is archived by TM into `docs/test/evidence/{spec-seq}-testReport-{semantic-slug}-ev/`).
 
 Context:
 - Timeout: timeoutMs = {milliseconds} (must already be filled at dispatch, no blanks, no relying on defaults)

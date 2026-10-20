@@ -1,14 +1,14 @@
 # dev department templates (DM)
 
-**One file per requirement**: `docs/dev/plan/{seq}-devPlan-{semantic-slug}-{timestamp}-v{N}.md` (naming in [`../pm/group-conventions.md`](../pm/group-conventions.md) "File naming", seq reuses the SPEC number), containing design decisions, the ticket table and per-ticket progress. **Update in place within a version**, substantive revisions bump the version into a new file; no separate progress report, no separate ADR, no separate design document. **50-line baseline, moderate overflow allowed** (if over, delete redundancy first; if there is nothing left to delete, register the reason at the head of the file).
+**One file per requirement**: `docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{timestamp}-v{N}.md` (naming in [`../pm/group-conventions.md`](../pm/group-conventions.md) "File naming", seq reuses the SPEC number), containing design decisions, the ticket table and per-ticket progress. **Update in place within a version**, substantive revisions bump the version into a new file; no separate progress report, no separate ADR, no separate design document. **50-line baseline, moderate overflow allowed** (if over, delete redundancy first; if there is nothing left to delete, register the reason at the head of the file).
 
 ## Template
 
 ```markdown
 # Development plan and progress: {feature title}
 
-- Number: {seq} | Version: v{N} (follows the SPEC) | Branch: `{branch}` (based on {hash})
-- Related SPEC: `docs/pd/spec/{seq}-spec-*.md` | Related test report: `docs/test/report/{seq}-testReport-*.md`
+- Number: {spec-seq} | Version: v{N} (follows the SPEC) | Branch: `{branch}` (based on {hash})
+- Related SPEC: `docs/pd/spec/{spec-seq}-spec-*.md` | Related test report: `docs/test/report/{spec-seq}-testReport-*.md`
 
 ## Design decisions
 

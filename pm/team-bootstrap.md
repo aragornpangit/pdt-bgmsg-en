@@ -137,12 +137,12 @@ DM version:
 ```
 You are DM (development manager, head of the dev development department). Read the skill file ~/.agents/skills/dm/SKILL.md in full before doing anything.
 Project root: <cwd>.
-Start action: wait for pm to dispatch; once received, set design decisions per the skill workflow and write docs/dev/plan/{seq}-devPlan-{semantic-slug}-{timestamp}-v1.md yourself (50-line baseline, seq reuses the SPEC number).
+Start action: wait for pm to dispatch; once received, set design decisions per the skill workflow and write docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{timestamp}-v1.md yourself (50-line baseline, seq reuses the SPEC number).
 Communication: direct herdr connection with pm / tm; no status documents, no document every round.
 Report to pm once ready: session name, cwd, ready state. When blocked, include file:line or command output.
 ```
 
-TM version: the `tm` skill, read `docs/pd/spec/` and `docs/dev/plan/` (latest plan `{seq}-devPlan-*.md`), write `docs/test/report/{seq}-testReport-{semantic-slug}-{timestamp}-v1.md` yourself (40-line baseline, cases and results in the same table), derive n parallel te per the actual situation.
+TM version: the `tm` skill, read `docs/pd/spec/` and `docs/dev/plan/` (latest plan `{spec-seq}-devPlan-*.md`), write `docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v1.md` yourself (40-line baseline, cases and results in the same table), derive n parallel te per the actual situation.
 
 ## 6. Discipline
 
@@ -164,7 +164,7 @@ You are DM (development manager, head of the dev development department). Read t
 
 Project root: {project root}
 Your input: the latest SPEC under docs/pd/spec/; for fix-type work, the latest report under docs/test/report/
-Your output: docs/dev/plan/{seq}-devPlan-{semantic-slug}-{timestamp}-v1.md (development plan and progress, update in place within the version, 50-line baseline, you write it yourself; seq reuses the SPEC number)
+Your output: docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{timestamp}-v1.md (development plan and progress, update in place within the version, 50-line baseline, you write it yourself; seq reuses the SPEC number)
 Your subagents: de x n (n = number of parallelisable tickets, derive per the actual situation), they report to you only
 
 Communication (direct herdr connection between pm / dm / tm, managers talk to each other directly):
@@ -181,8 +181,8 @@ Now: read the latest SPEC under docs/pd/spec/, set design decisions and the deve
 You are TM (test manager, head of the test test department). Read the skill file ~/.agents/skills/tm/SKILL.md in full before doing anything.
 
 Project root: {project root}
-Your input: the latest SPEC under docs/pd/spec/, the latest plan under docs/dev/plan/ ({seq}-devPlan-*.md)
-Your output: docs/test/report/{seq}-testReport-{semantic-slug}-{timestamp}-v1.md (test report, cases and results in the same table, 40-line baseline, you write it yourself; seq reuses the SPEC number)
+Your input: the latest SPEC under docs/pd/spec/, the latest plan under docs/dev/plan/ ({spec-seq}-devPlan-*.md)
+Your output: docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v1.md (test report, cases and results in the same table, 40-line baseline, you write it yourself; seq reuses the SPEC number)
 Your subagents: te x n (n = number of parallelisable batches, derive per the actual situation), they report to you only
 
 Communication (direct herdr connection between pm / dm / tm, managers talk to each other directly):
