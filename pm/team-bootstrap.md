@@ -1,6 +1,6 @@
-# Bootstrapping the group (DM / TM / ScoutM sessions)
+# Bootstrapping the group (DM / TM / scout-m sessions)
 
-PM reads this reference only at startup: probe the terminal, detect partner sessions, create sessions, assign roles. PM is the group entry point, it does not open new sessions for itself, it only tops up `dm` / `tm`; `scoutM` is started on demand (see section 4).
+PM reads this reference only at startup: probe the terminal, detect partner sessions, create sessions, assign roles. PM is the group entry point, it does not open new sessions for itself, it only tops up `dm` / `tm`; `scout-m` is started on demand (see section 4).
 
 ## 1. Probe the terminal emulator
 
@@ -36,14 +36,14 @@ Ask the user in only two cases: no variable matched at all; or the detected term
   "sessions": {
     "dm": { "id": "dm", "created": "<ISO time>", "cwd": "/home/user/proj" },
     "tm": { "id": "tm", "created": "<ISO time>", "cwd": "/home/user/proj" },
-    "scoutM": { "id": "scoutM", "created": "<ISO time>", "cwd": "/home/user/proj" }
+    "scout-m": { "id": "scout-m", "created": "<ISO time>", "cwd": "/home/user/proj" }
   }
 }
 ```
 
 - `terminal`: probe result or user choice, do not ask again once written
 - `agent_cmd`: the command line that starts the partner agent, defaults to the same agent PM itself uses; if different, ask the user once
-- `sessions`: records only partner sessions created by PM (not PM itself), label set `{dm, tm, scoutM}`; `scoutM` is created on demand, do not write this key if it was never started. For listable terminals the live command is authoritative; for non-listable terminals this record is a clue only, not proof of liveness
+- `sessions`: records only partner sessions created by PM (not PM itself), label set `{dm, tm, scout-m}`; `scout-m` is created on demand, do not write this key if it was never started. For listable terminals the live command is authoritative; for non-listable terminals this record is a clue only, not proof of liveness
 
 ## 3. Roll call: detect whether dm / tm are running
 
@@ -78,7 +78,7 @@ herdr agent prompt dm "<role assignment message>"
 
 The tab `--label` is the role name (`herdr tab list` locates the partner by it). `tm` the same way, `--label tm`. For CLI syntax, lifecycle states and reading IDs see the herdr skill.
 
-**`scoutM` is started on demand** (only when a research-type request comes in): same way, `herdr tab create --label scoutM --cwd "$PWD" --no-focus`, but the user starts their own harness, **do not run `agent start` in it**. After starting, register the label in `.pdt/team.json`, ask the user to start their harness in that tab, and dispatch work only after they confirm it is ready. Do not send messages and do not retry repeatedly before the harness is up.
+**`scout-m` is started on demand** (only when a research-type request comes in): same way, `herdr tab create --label scout-m --cwd "$PWD" --no-focus`, but the user starts their own harness, **do not run `agent start` in it**. After starting, register the label in `.pdt/team.json`, ask the user to start their harness in that tab, and dispatch work only after they confirm it is ready. Do not send messages and do not retry repeatedly before the harness is up.
 
 **How to message a partner**: locating the label -> pane ID -> `herdr agent prompt` is the full three-step procedure, together with the fallback channel and the token-saving rules, **whose only full text is in the "Communication" section of [`group-conventions.md`](group-conventions.md)**; this file does not restate it.
 

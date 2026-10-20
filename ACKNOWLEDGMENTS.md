@@ -15,7 +15,7 @@ The table below is **explicit reference**, not a blanket tribute. Every row has 
 | Location in this project | Upstream skill referenced |
 |---|---|
 | `pm`'s interview step | [`grilling`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grilling/SKILL.md) |
-| `scoutM`'s research method (anti-hallucination cross-validation, internalized as step 3 of the scoutM SKILL.md workflow) | [`research`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md) |
+| `scout-m`'s research method (anti-hallucination cross-validation, internalized as step 3 of the scout-m SKILL.md workflow) | [`research`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md) |
 | `pm`'s SPEC format | [`to-spec`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/to-spec/SKILL.md), internalized as `pm/spec-format.md` |
 | `dm`'s design vocabulary | [`codebase-design`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/codebase-design/SKILL.md) |
 | `dm`'s slicing convention | [`to-tickets`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/to-tickets/SKILL.md), internalized as the "slicing details" in `dm/templates.md` |
