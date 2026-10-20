@@ -73,7 +73,7 @@ In manual mode herdr direct connection is still primary; fall back to a one-line
 test "${HERDR_ENV:-}" = 1
 herdr tab create --label dm --cwd "$PWD" --no-focus   # read .result.root_pane from the JSON
 herdr agent start dm --kind <kind> --pane <pane-id>
-herdr agent prompt dm "<role assignment message>" --wait --timeout 60000
+herdr agent prompt dm "<role assignment message>"
 ```
 
 The tab `--label` is the role name (`herdr tab list` locates the partner by it). `tm` the same way, `--label tm`. For CLI syntax, lifecycle states and reading IDs see the herdr skill.
@@ -86,7 +86,7 @@ The tab `--label` is the role name (`herdr tab list` locates the partner by it).
 # manually started partner: look up the pane ID first, then send
 herdr tab list      # label -> tab_id
 herdr pane list     # tab_id -> pane_id
-herdr agent prompt <pane-id> "<message>" --wait --timeout 60000
+herdr agent prompt <pane-id> "<message>"
 ```
 
 If not even the agent is recognised (it is not in `herdr agent list`), fall back to sending raw through the pane channel:
@@ -96,7 +96,7 @@ herdr pane send-text <pane-id> "<message>"
 herdr pane send-keys <pane-id> enter
 ```
 
-While the other side is streaming, messages queue up ("Messages to be submitted after next tool call"), which counts as delivered; verify with `herdr pane read <pane-id> --source recent-unwrapped`.
+While the other side is streaming, messages queue up ("Messages to be submitted after next tool call"), which counts as delivered. **Do not verify with `herdr pane read` / `agent read`** (it floods the context and burns tokens): ask for a one-line receipt instead, or just watch whether `agent_status` turns `working`. **Do not add `--wait`** (a synchronous wait pulls the recipient's whole turn of output back).
 
 ### tmux
 

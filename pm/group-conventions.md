@@ -36,15 +36,24 @@ pdt-group (top-level department, owner pm: user entry point + product manager)
 
   1. `herdr tab list` → find the `tab_id` for the recipient label
   2. `herdr pane list` → find the `pane_id` under that `tab_id`
-  3. **codebuddy (cbc) sessions use a fixed two-step send**: codebuddy (cbc) is not in herdr's agent kind list, `herdr agent prompt` cannot resolve it (a direct send to pane_id reports `agent_not_ready`, "not an active named agent", the failure happens before delivery, no side effect on the pane), so you must use the raw pane channel:
+  3. **Delivery: prefer `herdr agent prompt`** (the target may be an agent name or a pane_id, provided that pane is recognised as an agent, i.e. its `agent` field in `herdr agent list` is not empty):
 
      ```bash
-     herdr pane send-text <pane_id> "<message>"
-     sleep 0.5 && herdr pane send-keys <pane_id> enter
+     herdr agent prompt <agent-name-or-pane_id> "<one-line summary + artifact path + requested action>"
      ```
 
-     **Pre-send check**: the pane's `agent_status` (visible in `herdr pane list`) must be `idle` / `done`; when it is `blocked` (stuck on a permission confirmation dialog), a blind send would answer the dialog by mistake, handle it manually first.
-     **enter is occasionally swallowed**: the symptom is a message sitting in the input box unsubmitted (measured; one extra enter restores it). Re-check `agent_status` two seconds later; if it is still not `working`, send `herdr pane send-keys <pane_id> enter` again, and do not resend the message body before reading the pane output to confirm submission (to prevent duplicate delivery).
+     **Why this one**: it goes through the agent's structured channel (it honours bracketed paste and appends one encoded Enter), so it **does not steal focus, does not bring the window to the foreground, and does not depend on whether enter gets swallowed**. **The cost**: it still writes into that pane's stdin, because herdr has no out-of-band message bus (`herdr api` only offers `snapshot` / `schema`), so "never touching the input box" is not achievable; what is achievable is "no focus change, atomic delivery, multi-line safe". codebuddy has been in the agent kind list since herdr 0.9.3 and can use this channel (the older "you must use the raw pane channel" conclusion is void).
+
+     **Pre-send check**: the pane's `agent_status` must be `idle` / `done`; when it is `blocked` (stuck on a permission dialog), handle it manually first, since `agent prompt` returns `agent_blocked` instead of answering the dialog by mistake.
+
+     **Fallback (panes not recognised as an agent)**: `herdr pane send-text <pane_id> "<message>"` + `herdr pane send-keys <pane_id> enter`; multi-line messages must use `herdr-ml`, otherwise an embedded newline is treated as Enter and submits early. Re-check `agent_status` two seconds later; if it is still not `working`, send one extra enter, and never resend the body (to prevent duplicate delivery).
+
+     **Token-saving delivery format (hard)**:
+
+     - **Body goes into a file, the message carries three things only**: one-line summary + artifact path + requested action. Never paste long bodies, logs or diffs into the message
+     - **Do not add `--wait`**: it waits synchronously and pulls the recipient's whole turn of output back, which burns tokens for nothing
+     - **Do not verify delivery with `agent read`**: reading pane output floods the context; ask the recipient for a one-line receipt instead ("got it, will report in X minutes")
+     - **Merge a batch into one message**: say several things in one delivery instead of splitting them into a back-and-forth
 
   For sessions started with `herdr agent start <name>`, that `<name>` can be used directly; agents started manually by the user are unnamed, and only `pane_id` works. **Never write a label or ID from memory, never hardcode an ID** (IDs may change each session, always look them up at use time).
 - **Recipient label not in `herdr tab list` ⇒ do not send**: first complete the session per "Sessions and labels" (completion flow in [`team-bootstrap.md`](team-bootstrap.md)), confirm readiness, then send; do not retry repeatedly against a session that does not exist
@@ -212,7 +221,7 @@ Session names are fixed as `pm` / `dm` / `tm`, the label set is `{pm, dm, tm, sc
 
 - **`sessions` in `.pdt/team.json` registers the four labels**: `dm` / `tm` are written by pm at creation; `scoutM` is started by pm on demand and registered the same way after starting (fields isomorphic to `dm` / `tm`)
 
-- **Runtime base and communication priority**: prefer **herdr as the terminal runtime base**, with each role's session running inside a herdr session where possible (one session per role, labels above); between sessions, **prefer targeted herdr messaging** (codebuddy sessions use the fixed two steps in the "Communication" section: pane send-text + send-keys enter), not file polling, not cross-session relay. Only fall back when herdr is unavailable (fallback in the manual mode of [`team-bootstrap.md`](team-bootstrap.md)).
+- **Runtime base and communication priority**: prefer **herdr as the terminal runtime base**, with each role's session running inside a herdr session where possible (one session per role, labels above); between sessions, **prefer targeted herdr messaging** (delivery method in the "Communication" section: prefer `herdr agent prompt`, and only fall back to the pane channel for panes not recognised as an agent), not file polling, not cross-session relay. Only fall back when herdr is unavailable (fallback in the manual mode of [`team-bootstrap.md`](team-bootstrap.md)).
 
 ## Cross-skill reference disciplines
 
