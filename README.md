@@ -1,8 +1,8 @@
-# pdt-en
+# pdt-bgmsg-en
 
 **Put a software team inside an agent session.**
 
-> This is the **English edition** of the PDT group skill family. The Chinese original lives at [aragornpangit/pdt-group](https://github.com/aragornpangit/pdt-group); structure, roles and rules are identical, only the language differs.
+> This is the **English edition** of the PDT group skill family. The Chinese original lives at [aragornpangit/pdt-bgmsg](https://github.com/aragornpangit/pdt-bgmsg); structure, roles and rules are identical, only the language differs.
 
 PDT group is a **role skill family**: one first-level department plus four second-level departments, 4 installable roles in total (pm / dm / tm / scoutM), plus one class of subagents generated dynamically on dispatch (`de` / `te`) and two kinds of on-demand derived subagents (pm's `pde`, scoutM's `se`). Each manager role is a `SKILL.md` that an agent can load, each running in its own session and collaborating over herdr messages, so the chain "user requirement → SPEC → vertical-slice implementation → independent verification" runs end to end; scoutM is the manager of the Reconnaissance department, taking on technology selection and pre-refactor research.
 

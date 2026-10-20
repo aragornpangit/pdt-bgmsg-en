@@ -1,6 +1,6 @@
 # AGENTS.md: the organizational constitution of this repo (release mirror)
 
-This repo is the **English edition (pdt-en) of the pdt-group role skill family**, not a skill container repo. The Chinese original is [aragornpangit/pdt-group](https://github.com/aragornpangit/pdt-group); content and rules are the same, only the language differs. The container repo (internal private repo `Skills`, layout `skills/pdt-group/<role>/`) is the only place where writing happens; this repo is synced one-way from it, for external distribution and reading.
+This repo is the **English edition (pdt-bgmsg-en) of the pdt-group role skill family**, not a skill container repo. The Chinese original is [aragornpangit/pdt-bgmsg](https://github.com/aragornpangit/pdt-bgmsg); content and rules are the same, only the language differs. The container repo (internal private repo `Skills`, layout `skills/pdt-group/<role>/`) is the only place where writing happens; this repo is synced one-way from it, for external distribution and reading.
 
 Differences from the container repo's constitution: the container repo's `skills/<bucket>/<name>/` structural rules, §8 structural checks, and multi-bucket registration flow **do not apply** here (this repo uses a flattened layout). This repo has no machine-check scripts; human reading plus container-repo validation are the gate.
 
