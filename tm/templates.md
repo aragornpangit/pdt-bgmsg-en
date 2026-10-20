@@ -2,7 +2,7 @@
 
 **One requirement, one file**: `docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v{N}.md` (naming see [`../pm/group-conventions.md`](../pm/group-conventions.md) "file naming", `{spec-seq}` reuses the SPEC's id), **cases and results live in the same file**. **Update in place within a version** (appending cases does not rename); a substantive revision bumps the version into a new file. **40 lines baseline, may moderately exceed** (if exceeded, delete redundancy first; when nothing can be deleted, register the reason in the file header).
 
-There is no separate test plan document: cases go straight into the case table of the report. Evidence has two layers: conclusion evidence is inlined in the table as `file:line`; host-side machine-check evidence (`selftest` logs, machine-check output) goes into the repo at `docs/test/evidence/{spec-seq}-testReport-{semantic-slug}-ev/` (restored, for TM archiving only; one directory per seq, a report version bump does not change the directory).
+There is no separate test plan document: cases go straight into the case table of the report. Evidence has two layers (full text in "Document whitelist" > "two layers of evidence" of [`../pm/group-conventions.md`](../pm/group-conventions.md)): conclusion evidence is inlined in the table as `file:line`; host-side machine-check evidence goes into the repo at `docs/test/evidence/{spec-seq}-testReport-{semantic-slug}-ev/`, one directory per seq, a report version bump does not change the directory.
 
 ## Template
 
@@ -28,7 +28,7 @@ There is no separate test plan document: cases go straight into the case table o
 **Overall verdict**: {pass / conditional pass / fail} + one-sentence reason (items not verified at runtime are marked here)
 ```
 
-**Sections may be deleted**: once the case table covers every acceptance criterion there is no need for a separate coverage section; when "Problems found" is empty, **delete the whole section** (group convention: do not write a "none" placeholder). **Exceeding the baseline: delete redundancy first; when nothing can be deleted, register the reason in the file header**.
+**Sections may be deleted**: when "Problems found" is empty, **delete the whole section** (group convention: do not write a "none" placeholder). **Exceeding the baseline: delete redundancy first; when nothing can be deleted, register the reason in the file header**.
 
 ## Case categories (`XX` customized per SPEC topic, the only list)
 
@@ -54,7 +54,7 @@ Cases in this batch ({category}):
 | Case ID | Review item | Expected result |
 |---|---|---|
 
-Means: Read the source, grep static assertions, code walkthrough (substitute inputs one by one and analyze branch outputs).
+Means: Read the source, grep static assertions, code walkthrough (substitute inputs one by one and analyze branch outputs); when diagnosing a defect, a repro / test script may be written and run (never the product code), with the machine-check output sent back as evidence.
 - `XX-CODE` cases use the code-review dual axis (Spec axis: consistency of the implementation with the SPEC; Standards axis: compliance with repo standards), skill text: https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/code-review/SKILL.md
 - Hard defects and performance regressions use the diagnosing-bugs diagnosis loop (the red-green loop adds test / reproduction scripts only, never changes product code), skill text: https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/diagnosing-bugs/SKILL.md
 - Every result must give file:line or a grep hit / zero-match as evidence; a conclusion without evidence is treated as BLOCKED
