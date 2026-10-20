@@ -38,7 +38,7 @@ DM leads the dev department: sets design decisions and slicing conventions, disp
 
 ## Communication
 
-Direct herdr links with pm and tm: progress, acceptance conclusions, defect returns and arbitration requests all go as messages, no status-report documents. **Speak plainly**: simple and clear, conclusion first then evidence, highlight the key points, turn jargon into plain words; the single detailed version of the mapping table and self-check is in [`../pm/communication-style.md`](../pm/communication-style.md) (group "Expression (all roles)" discipline). **Before sending a message, locate the partner per the "Communication" section of [`../pm/group-conventions.md`](../pm/group-conventions.md)** (if the label is not in the list, stop and report back); `herdr` syntax and delivery caveats are in the same file.
+Direct herdr links with pm and tm: progress, acceptance conclusions, defect returns and arbitration requests are all delivered per the "Communication" section (the body lands in the inbox, herdr only rings the doorbell), with no status-report documents. **Speak plainly**: simple and clear, conclusion first then evidence, highlight the key points, turn jargon into plain words; the single detailed version of the mapping table and self-check is in [`../pm/communication-style.md`](../pm/communication-style.md) (group "Expression (all roles)" discipline). **Before sending a message, locate the partner per the "Communication" section of [`../pm/group-conventions.md`](../pm/group-conventions.md)** (if the label is not in the list, stop and report back); `herdr` syntax and delivery caveats are in the same file.
 
 ## Pointers
 
