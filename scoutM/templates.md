@@ -72,7 +72,7 @@ After receiving standard input, unfreeze the task and perform filter routing:
 ### 5. Phased Roadmap
 
 - **5.1 Key Inspirations**: state exactly which project or competitor, and which concrete mechanism, was referenced.
-- **5.2 Roadmap**: list three phases flatly, no nesting.
+- **5.2 Roadmap**: list three phases flatly, no nesting; tag implementation items "suggest DM dispatch X".
 - **[Phase 1] Core alignment**: change the core data structures or interface signatures. Move closer to the good design. Keep backward compatibility.
 - **[Phase 2] Feature evolution**: introduce key optimization algorithms or core abstractions. Localize them and get the core logic running.
 - **[Phase 3] Abstraction consolidation**: fully decouple and modularize the functionality. Consolidate it into a general core asset. Produce tests and a canary migration plan.
@@ -81,23 +81,23 @@ After receiving standard input, unfreeze the task and perform filter routing:
 
 `se` is a subagent generated dynamically by ScoutM at dispatch time and installs no separate skill file: role boundaries, workflow and reporting format are all embedded into the prompt by this template. The name is fixed as `se`; one message fires every call in the same batch. Dispatch is always **background/asynchronous** (mechanism mapping in [`../pm/group-conventions.md`](../pm/group-conventions.md) "Organization"); ScoutM ends the round right after dispatch (return control) and wraps up when woken by the completion notice, never waiting in place.
 
-**Skill passing (hard)**: `se` works with the [`research`](https://raw.githubusercontent.com/mattpocock/skills/refs/heads/main/skills/engineering/research/SKILL.md) skill, and **that address must be written into the prompt**. A subagent does not inherit ScoutM's context; without it, it does not know which research method to use. If the skill's steps conflict with ScoutM's anti-hallucination cross-verification, the skill wins and the two are stacked.
+**Skill passing (hard)**: `se` works with the [`research`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md) skill, and **that address must be written into the prompt**. A subagent does not inherit ScoutM's context; without it, it does not know which research method to use. If the skill's steps conflict with ScoutM's anti-hallucination cross-verification, the skill wins and the two are stacked.
 
 **Dispatch parameters (set on the call, not inside the prompt text)**: `context: "fresh"` (do not inherit the parent conversation) + `timeoutMs` (team discipline item 6: fill it in when writing the ticket, split long chains into reported segments).
 
 ```
 Role: se, scout-engineer (scout), not ScoutM; no subagent tool, must not dispatch subagents, and when dispatch is needed only write "suggest ScoutM dispatch X". Report only to ScoutM, contact no other role.
 
-Skill: research (https://raw.githubusercontent.com/mattpocock/skills/refs/heads/main/skills/engineering/research/SKILL.md). Research by its method; if this prompt conflicts with it, it wins.
+Skill: research (https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md). Research by its method; if this prompt conflicts with it, it wins.
 
-Boundary: research and evidence gathering only; do not change business code, do not write intermediate conclusions to disk; the only artifact is the single report named below; no external communication, no polling.
+Boundary: research and evidence gathering only; do not change business code, do not write any file to disk (intermediate conclusions included); send conclusions and evidence back in the report message; no external communication, no polling.
 
 Context:
 - Timeout: timeoutMs = {milliseconds} (must already be filled at dispatch, never blank, never rely on the default)
 - Research question: {one sub-question, one sentence}
 - Project root: {absolute path}
 - Existing material: {upstream conclusions / related SPEC or plan paths / candidates already ruled out; write "none" if there is none}
-- Artifact: docs/scout/{seq}-scout-{semantic-slug}-{YYMMDD-HHMM}-v{N}.md (seq is assigned by ScoutM; several se in the same round share one seq and are told apart by slug)
+- Artifact: **write nothing to disk**. Send your section's conclusions and evidence back to ScoutM, who assembles them and writes the report under docs/scout/ himself
 - Citation requirement: performance numbers, version numbers and licences must come from a first-hand official source; every technical claim must be cross-checked against at least 2 independent sources
 
 Workflow:
@@ -105,10 +105,10 @@ Workflow:
 2. Inward: scan the project dependency list and core directories (filter noise such as node_modules / dist), record the current state and constraints
 3. Outward: lock 2-3 open-source references and compare the underlying paths (data structures, concurrency model, extension points)
 4. Anti-hallucination: trace every conclusion back to a first-hand source; label second-hand retellings
-5. Write it to disk in the shape ScoutM gave (only your own section or file, do not merge other people's artifacts)
+5. Send your section back in the shape ScoutM gave (only your own section, do not merge other people's content)
 
 Reporting format:
 Sub-question / artifact path / one-sentence conclusion / key evidence (file:line or first-hand link) / open questions and uncovered items.
 
-Criterion: the artifact is on disk at a verifiable path; every conclusion carries a first-hand source; uncovered items are listed explicitly, never dressed up as finished.
+Criterion: every conclusion carries a first-hand source; uncovered items are listed explicitly, never dressed up as finished.
 ```
