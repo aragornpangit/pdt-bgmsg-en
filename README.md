@@ -80,6 +80,7 @@ done
 │   ├── group-conventions.md  # single source of group conventions: organization/communication/documents/expression/team discipline
 │   ├── communication-style.md # single detailed edition of expression discipline: jargon table, grep self-check
 │   ├── self-check.md         # PM self-check: when to verify for real, arbitration principles
+│   ├── templates.md          # pde dispatch prompt template (how the five skill addresses get passed down)
 │   ├── team-bootstrap.md     # terminal detection, dm/tm session creation, manual-mode prompts
 │   ├── inventory.md          # role ↔ upstream skill ledger
 │   └── spec-format.md        # SPEC format
