@@ -13,7 +13,7 @@ pdt-group (top-level department, owner pm: user entry point + product manager)
 ├── test testing department   manager tm  → test report (writes it themselves)
 │   └── te × n                test case execution
 └── scoutM Reconnaissance dept manager scoutM → research report (docs/scout/, writes it themselves)
-    └── se × n                   reconnaissance engineers (several derived on demand)
+    └── se × n                   scout-engineers (several derived on demand)
 ```
 
 - Each manager **writes their own department's documents**; pm may derive subagents to do work on demand (evidence gathering / verification / material organization), but the delivered document is still consolidated by pm and written by pm

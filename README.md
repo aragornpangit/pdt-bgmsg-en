@@ -38,7 +38,7 @@ The organization tree, dispatch iron rules and subagent derivation rules are in 
 
 - `de` × n: development engineer. Inside the git worktree pre-created by DM: implement → tdd → self-review → commit (template in [`dm/templates.md`](dm/templates.md))
 - `te` × n: test engineer. Executes cases, holds `code-review` and `diagnosing-bugs` (template in [`tm/templates.md`](tm/templates.md))
-- `se` × n: reconnaissance engineer (scout). Splits research into sub-questions, scans the codebase inward and benchmarks open-source references outward (template in [`scoutM/templates.md`](scoutM/templates.md))
+- `se` × n: scout-engineer (scout). Splits research into sub-questions, scans the codebase inward and benchmarks open-source references outward; holds the `research` skill, passed in by ScoutM in the dispatch prompt (template in [`scoutM/templates.md`](scoutM/templates.md))
 
 ## How a requirement runs to completion
 
