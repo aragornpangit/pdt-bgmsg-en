@@ -1,6 +1,6 @@
 # Test department (test) templates (TM)
 
-**One requirement, one file**: `docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v{N}.md` (naming see [`../pm/group-conventions.md`](../pm/group-conventions.md) "file naming", seq follows the SPEC's sequence number), **cases and results live in the same file**. **Update in place within a version** (appending cases does not rename); a substantive revision bumps the version into a new file. **40 lines baseline, may moderately exceed** (if exceeded, delete redundancy first; when nothing can be deleted, register the reason in the file header).
+**One requirement, one file**: `docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v{N}.md` (naming see [`../pm/group-conventions.md`](../pm/group-conventions.md) "file naming", `{spec-seq}` reuses the SPEC's id), **cases and results live in the same file**. **Update in place within a version** (appending cases does not rename); a substantive revision bumps the version into a new file. **40 lines baseline, may moderately exceed** (if exceeded, delete redundancy first; when nothing can be deleted, register the reason in the file header).
 
 There is no separate test plan document: cases go straight into the case table of the report. Evidence has two layers: conclusion evidence is inlined in the table as `file:line`; host-side machine-check evidence (`selftest` logs, machine-check output) goes into the repo at `docs/test/evidence/{spec-seq}-testReport-{semantic-slug}-ev/` (restored, for TM archiving only; one directory per seq, a report version bump does not change the directory).
 
@@ -28,15 +28,17 @@ There is no separate test plan document: cases go straight into the case table o
 **Overall verdict**: {pass / conditional pass / fail} + one-sentence reason (items not verified at runtime are marked here)
 ```
 
-**Sections may be deleted**: coverage checks merge into the case table notes (at least one case per acceptance criterion); when "Problems found" is empty, **delete the whole section** (group convention: do not write a "none" placeholder). **Exceeding the baseline: delete redundancy first; when nothing can be deleted, register the reason in the file header**.
+**Sections may be deleted**: once the case table covers every acceptance criterion there is no need for a separate coverage section; when "Problems found" is empty, **delete the whole section** (group convention: do not write a "none" placeholder). **Exceeding the baseline: delete redundancy first; when nothing can be deleted, register the reason in the file header**.
 
-Case categories (`XX` customized per SPEC topic): `XX-CODE` code review (Spec + Standards dual axis), `XX-VAL` logic, `XX-UI` interaction, `XX-REG` regression, `XX-EDGE` boundary.
+## Case categories (`XX` customized per SPEC topic, the only list)
+
+`XX-CODE` code review (Spec + Standards dual axis), `XX-VAL` logic, `XX-UI` interaction, `XX-REG` regression, `XX-EDGE` boundary.
 
 ## te dispatch prompt template
 
 `te` is a subagent generated dynamically when TM dispatches, with no standalone skill file: the role boundary, verification means and reporting format are all embedded into the prompt by this template. The name is always `te`; start all calls in the batch in one message. Dispatch is always **background/asynchronous** (mechanism mapping see [`../pm/group-conventions.md`](../pm/group-conventions.md) "Organization"), TM ends the round as soon as it sends (return control), and is woken by the completion notice to review again; it does not wait in place for results. Case categories as above, same name and meaning as on the TM report side.
 
-**Dispatch parameters (written on the call, not inside the prompt text)**: `timeoutMs` (team discipline item 6: fill it in when writing the cases; device tickets / long chains >= 45 min and report in segments). The template body also lists `timeoutMs` as a line so TM does not miss it when copying the ticket.
+**Dispatch parameters (written on the call, not inside the prompt text)**: `context: "fresh"` (do not inherit the parent conversation) + `timeoutMs` (team discipline item 6: fill it in when writing the cases; device tickets / long chains >= 45 min and report in segments). The template body also lists `timeoutMs` as a line so TM does not miss it when copying the ticket.
 
 ```
 Role: te, test execution agent, not TM; no subagent tool, must not dispatch subagents. Reports to TM only, does not contact pm/dm or other te agents.
