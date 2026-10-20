@@ -1,7 +1,7 @@
 # PM Self-Check and Arbitration Rules
 
 > **PM must follow these himself** (not only require them of the team).
-> The **single full text** of the general discipline (the three-part reporting set, verifying the numbers when announcing completion, verification target = delivery target, how to write discipline and the admission threshold) is the "Team discipline" table in [`group-conventions.md`](group-conventions.md); this file keeps only PM-specific content and does not restate it.
+> The **single full text** of the general discipline (the three-part reporting set, verifying the numbers when announcing completion, verification target = delivery target, how to write discipline and the admission threshold) is the "Team discipline" table in [`group-conventions.md`](group-conventions.md); expression conventions are in [`communication-style.md`](communication-style.md). This file keeps only PM-specific content and does not restate it.
 
 ## 1. When verification is mandatory (rework-cost criterion)
 
@@ -23,7 +23,3 @@
 | **Indirect evidence must not substitute for direct evidence** | For any statement that "a resource / capability is available", **probe it on the spot before sending and attach the output** | When indirect and direct evidence conflict there is no error report, only silent distortion |
 | **Verify evidence sufficiency before changing a delivered value** | Give the effective sample count **and** the variation range across samples; **the evidence standard is not lowered because it is cheap or reversible** | Low cost makes people lower the evidence bar, and this is the most common source of missed judgments |
 | **Conclusions from a bench / simulated environment must not be labeled "measured"** | Items involving real-environment semantics may only be labeled "inferred" or "to be verified"; when a simulated environment conflicts with the real one, **suspect the simulated environment first** | A simulated environment differs from the real one in some semantics ⇒ the conclusion is distorted and no error is reported |
-
-## 3. Communication
-
-**Pointer**: [`communication-style.md`](communication-style.md) (jargon table, grep self-check, the two exceptions). **Every outward statement goes through there.**

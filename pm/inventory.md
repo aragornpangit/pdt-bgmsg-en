@@ -1,6 +1,6 @@
 # pdt-group skill inventory
 
-The mattpocock engineering skills used by the group's manager roles (pm / dm / tm / scoutM) and the dispatch subagents (`pde` / `de` / `te` / `se`), assigned to the four departments according to **mattpocock's semantics**. Subagents do not get their own skill files; the skills they use are written into the dispatch prompt by the manager that spawns them (templates in `dm/templates.md`, `tm/templates.md`, `scoutM/templates.md`, `pm/SKILL.md`). Each role's SKILL.md writes only the few it wires up, and does not restate them here.
+The mattpocock engineering skills used by the group's manager roles (pm / dm / tm / scoutM) and the dispatch subagents (`pde` / `de` / `te` / `se`), assigned to the four departments according to **mattpocock's semantics**. Subagents do not get their own skill files; the skills they use are written into the dispatch prompt by the manager that spawns them (templates in `pm/templates.md`, `dm/templates.md`, `tm/templates.md`, `scoutM/templates.md`). Each role's SKILL.md writes only the few it wires up, and does not restate them here.
 
 **Upstream repository**: [`mattpocock/skills`](https://github.com/mattpocock/skills) (GitHub, `main` branch). Every skill name in the table below links to its raw `SKILL.md` address on `main` (raw root `https://raw.githubusercontent.com/mattpocock/skills/main/`); click through to read the upstream original. **Upstream is the single source of truth**.
 
@@ -54,7 +54,7 @@ The mattpocock engineering skills used by the group's manager roles (pm / dm / t
 | Skill | Type | Owner | Note |
 |---|---|---|---|
 | [`ask-matt`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/ask-matt/SKILL.md) | USER | pm | Router: ask "which skill / process should I use" |
-| [`research`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md) | MODEL | scoutM | Not wired since 2026-09-23; wired on 2026-09-29 to scoutM, the manager of the Reconnaissance department; since 2026-10-20 it reaches the execution surface: **ScoutM writes the research skill address into the prompt when dispatching `se`**, and `se` researches per that skill plus anti-hallucination cross-verification, output goes to `docs/scout/` |
+| [`research`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md) | MODEL | PM / scoutM | Evidence gathering and research: PM uses it when it looks facts up itself; **ScoutM writes the address into the prompt when dispatching `se`**, and `se` researches per that skill plus an anti-hallucination cross-check, with output in `docs/scout/` |
 | [`setup-matt-pocock-skills`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/setup-matt-pocock-skills/SKILL.md) | USER | one-time | Configure issue tracker / triage labels / doc directory, run once per repo |
 
 **Not included** (unrelated to the PDT process, or personal toolchains): `teach`, `scaffold-exercises`, `pr` (write the PR body), `implement-spec`, `retro` (upstream has finalized it and moved it into the `engineering/` bucket, not needed by the process for now), plus the not-yet-finalized `claude-handoff`, `loop-me`, `setup-ts-deep-modules`, `writing-beats`, `writing-fragments`, `writing-shape` in the `in-progress/` bucket.
@@ -65,4 +65,4 @@ The mattpocock engineering skills used by the group's manager roles (pm / dm / t
 
 When skills are added or removed, change only this table; the pointer sections in each role's SKILL.md stay consistent with it.
 
-> Trace of removed references: `resolving-merge-conflicts` was once the basis for dm's conflict resolution, and **upstream v1.3.0 has archived it out of the plugin** (explicitly saying there is no replacement, and the agent handles conflicts directly); the skill file is no longer on `main`, only an archive note remains. So this repo removes that reference, and the dm side switches to a practice write-up with no citation (trace each hunk by intent, never `--abort`).
+> Removed: `resolving-merge-conflicts` (archived upstream, the file is no longer on `main`); conflict handling now traces each hunk by intent and never uses `--abort`.

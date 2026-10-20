@@ -1,6 +1,6 @@
-# Bootstrapping the group (DM / TM sessions)
+# Bootstrapping the group (DM / TM / ScoutM sessions)
 
-PM reads this reference only at startup: probe the terminal, detect partner sessions, create sessions, assign roles. PM is the group entry point, it does not open new sessions for itself, it only tops up `dm` / `tm`.
+PM reads this reference only at startup: probe the terminal, detect partner sessions, create sessions, assign roles. PM is the group entry point, it does not open new sessions for itself, it only tops up `dm` / `tm`; `scoutM` is started on demand (see section 4).
 
 ## 1. Probe the terminal emulator
 
@@ -72,7 +72,7 @@ In manual mode herdr direct connection is still primary; fall back to a one-line
 ```bash
 test "${HERDR_ENV:-}" = 1
 herdr tab create --label dm --cwd "$PWD" --no-focus   # read .result.root_pane from the JSON
-herdr agent start dm --kind <kind> --pane <pane-id>
+herdr agent start dm --kind <harness kind> --pane <pane-id>   # look up the kind in the herdr skill, never from memory
 herdr agent prompt dm "<role assignment message>"
 ```
 
@@ -80,23 +80,7 @@ The tab `--label` is the role name (`herdr tab list` locates the partner by it).
 
 **`scoutM` is started on demand** (only when a research-type request comes in): same way, `herdr tab create --label scoutM --cwd "$PWD" --no-focus`, but the user starts their own harness, **do not run `agent start` in it**. After starting, register the label in `.pdt/team.json`, ask the user to start their harness in that tab, and dispatch work only after they confirm it is ready. Do not send messages and do not retry repeatedly before the harness is up.
 
-**The two channels of a partner session**: a herdr agent target only accepts an **agent name** or a **pane ID**, **a tab label is not an agent target** (`herdr agent prompt <label>` against it reports `agent_not_found`). Ones started with `herdr agent start <name>` have a name, use the name directly; ones the user started manually **have no name**, only the pane ID works:
-
-```bash
-# manually started partner: look up the pane ID first, then send
-herdr tab list      # label -> tab_id
-herdr pane list     # tab_id -> pane_id
-herdr agent prompt <pane-id> "<message>"
-```
-
-If not even the agent is recognised (it is not in `herdr agent list`), fall back to sending raw through the pane channel:
-
-```bash
-herdr pane send-text <pane-id> "<message>"
-herdr pane send-keys <pane-id> enter
-```
-
-While the other side is streaming, messages queue up ("Messages to be submitted after next tool call"), which counts as delivered. **Do not verify with `herdr pane read` / `agent read`** (it floods the context and burns tokens): ask for a one-line receipt instead, or just watch whether `agent_status` turns `working`. **Do not add `--wait`** (a synchronous wait pulls the recipient's whole turn of output back).
+**How to message a partner**: locating the label -> pane ID -> `herdr agent prompt` is the full three-step procedure, together with the fallback channel and the token-saving rules, **whose only full text is in the "Communication" section of [`group-conventions.md`](group-conventions.md)**; this file does not restate it.
 
 ### tmux
 
@@ -111,7 +95,7 @@ tmux send-keys -t dm "<role assignment message>" Enter
 
 ```bash
 wezterm cli spawn --cwd "$PWD" -- "$AGENT_CMD"          # returns the new pane id
-wezterm cli send-text --pane-id <id> "<role assignment message>" Enter
+wezterm cli send-text --pane-id <id> "<role assignment message>"$'\n'
 ```
 
 ### Terminals that cannot receive injected input (Windows Terminal / Ghostty / WSL)
@@ -138,7 +122,7 @@ DM version:
 You are DM (development manager, head of the dev development department). Read the skill file ~/.agents/skills/dm/SKILL.md in full before doing anything.
 Project root: <cwd>.
 Start action: wait for pm to dispatch; once received, set design decisions per the skill workflow and write docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{timestamp}-v1.md yourself (50-line baseline, seq reuses the SPEC number).
-Communication: direct herdr connection with pm / tm; no status documents, no document every round.
+Communication: direct connection with pm / tm, delivered per the "Communication" section of group-conventions (body goes to the inbox file); no status documents, no document every round.
 Report to pm once ready: session name, cwd, ready state. When blocked, include file:line or command output.
 ```
 
@@ -167,8 +151,8 @@ Your input: the latest SPEC under docs/pd/spec/; for fix-type work, the latest r
 Your output: docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{timestamp}-v1.md (development plan and progress, update in place within the version, 50-line baseline, you write it yourself; seq reuses the SPEC number)
 Your subagents: de x n (n = number of parallelisable tickets, derive per the actual situation), they report to you only
 
-Communication (direct herdr connection between pm / dm / tm, managers talk to each other directly):
-- Progress, acceptance conclusions, defect returns, arbitration requests all go through herdr messages, no status documents
+Communication (direct connection between pm / dm / tm, managers talk to each other directly; delivery per the "Communication" section of group-conventions, body goes to the inbox file):
+- Progress, acceptance conclusions, defect returns, arbitration requests are all delivered there, no status documents
 - Do not write documents every round: update only when the plan changes substantially
 - No polling: upstream updates are triggered by the user / pm, or checked once at the start of the round's task
 
@@ -185,8 +169,8 @@ Your input: the latest SPEC under docs/pd/spec/, the latest plan under docs/dev/
 Your output: docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v1.md (test report, cases and results in the same table, 40-line baseline, you write it yourself; seq reuses the SPEC number)
 Your subagents: te x n (n = number of parallelisable batches, derive per the actual situation), they report to you only
 
-Communication (direct herdr connection between pm / dm / tm, managers talk to each other directly):
-- Test conclusions, defect returns, arbitration requests all go through herdr messages, no status documents
+Communication (direct connection between pm / dm / tm, managers talk to each other directly; delivery per the "Communication" section of group-conventions, body goes to the inbox file):
+- Test conclusions, defect returns, arbitration requests are all delivered there, no status documents
 - Every conclusion must carry file:line or grep evidence, conclusions without evidence are not accepted
 - Do not write documents every round: write to disk only when the report is finalised or cases are appended
 - No polling: upstream updates are triggered by the user / pm, or checked once at the start of the round's task

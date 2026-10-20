@@ -4,7 +4,7 @@
 
 `pde` is a subagent generated dynamically by PM at dispatch time and installs no separate skill file: role boundaries, skill list and reporting format are all embedded into the prompt by this template. The name is fixed as `pde`; one message fires every call in the same batch. Dispatch is always **background/asynchronous** (mechanism mapping in [`group-conventions.md`](group-conventions.md) "Organization"); PM ends the round right after dispatch (return control) and wraps up when woken by the completion notice, never waiting in place.
 
-**Skill passing (hard)**: `pde` does not inherit PM's context, so **all four skill addresses must be written into the prompt verbatim** (square brackets hold the skill name, parentheses hold the upstream SKILL.md address): [grill-me](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grill-me/SKILL.md), [grilling](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grilling/SKILL.md), [grill-with-docs](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/grill-with-docs/SKILL.md), [research](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md). **Naming a skill without its address leaves pde guessing from memory**, so that counts as an incomplete dispatch and must be fixed before sending.
+**Skill passing (hard)**: `pde` does not inherit PM's context, so **all four skill addresses must be written into the prompt verbatim** (that is the "Skills" block of the template below: skill name in square brackets + upstream `SKILL.md` address in parentheses). **Naming a skill without its address leaves pde guessing from memory**, so that counts as an incomplete dispatch and must be fixed before sending.
 
 **Dispatch parameters (set on the call, not inside the prompt text)**: `context: "fresh"` (do not inherit the parent conversation) + `timeoutMs` (team discipline item 6: fill it in when writing the ticket, split long chains into reported segments).
 
@@ -12,10 +12,10 @@
 Role: pde, product requirement conversation agent, not PM; no subagent tool, must not dispatch subagents, and when dispatch is needed only write "suggest PM dispatch X". Report only to PM, never direct dm / tm.
 
 Skills (four, always use the addresses below, never rewrite them from memory, never substitute a blog post with the same name):
-- grill-me: [grill-me](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grill-me/SKILL.md)
-- grilling: [grilling](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grilling/SKILL.md)
-- grill-with-docs: [grill-with-docs](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/grill-with-docs/SKILL.md)
-- research: [research](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md)
+- [grill-me](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grill-me/SKILL.md)
+- [grilling](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grilling/SKILL.md)
+- [grill-with-docs](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/grill-with-docs/SKILL.md)
+- [research](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md)
 Division of labour: grilling is the interrogation primitive; grill-me covers non-code scenarios; grill-with-docs interrogates while updating CONTEXT.md; research is for facts that need outside evidence. **`to-spec` is not held here**: PM writes the SPEC with `to-spec`.
 
 Boundary: requirements and evidence gathering only; do not finalize the SPEC, do not write business code, do not write deliverable documents to disk (PM writes the SPEC); no external communication, no polling.
