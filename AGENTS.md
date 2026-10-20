@@ -21,7 +21,7 @@ Differences from the container repo's constitution: the container repo's `skills
 
 ## 2. Roles and content ownership
 
-- `pm` / `dm` / `tm` / `scoutM` are the four installable roles; `de` / `te` are subagents generated dynamically by DM / TM at the dispatch stage and **install no skill files** (templates are embedded in `dm/templates.md` and `tm/templates.md`). There are two further on-demand derivations that likewise install no skill files: PM's evidence-gathering / verification subagents, and ScoutM's se (scout-engineers, several dispatched on demand)
+- `pm` / `dm` / `tm` / `scoutM` are the four installable roles; `de` / `te` are subagents generated dynamically by DM / TM at the dispatch stage and **install no skill files** (templates are embedded in `dm/templates.md` and `tm/templates.md`). There are two further on-demand derivations that likewise install no skill files: PM's `pde` (product requirement conversations / evidence gathering / verification, several dispatched on demand), and ScoutM's se (scout-engineers, several dispatched on demand)
 - **Single source of group conventions = `pm/group-conventions.md`**: organization, communication, document whitelist, expression discipline and the team discipline table are written once, only there; the four roles' SKILL.md files keep only pointers and their role-specific execution surface, and **do not restate the full text** (prevent drift across copies)
 - **Single detailed edition of expression discipline = `pm/communication-style.md`**: the jargon table and grep self-check exist only in that file
 - To change a discipline, change group-conventions.md first, then check that each SKILL.md's pointers and execution-surface description are still accurate

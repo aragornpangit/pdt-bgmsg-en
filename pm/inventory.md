@@ -1,6 +1,6 @@
 # pdt-group skill inventory
 
-The mattpocock engineering skills used by the group's manager roles (pm / dm / tm), assigned to the pd / dev / test departments according to **mattpocock's semantics**. `de` / `te` are subagents dynamically generated at the manager's dispatch stage and do not get their own skill files (templates in `dm/templates.md`, `tm/templates.md`). Each role's SKILL.md writes only the few it wires up, and does not restate them here.
+The mattpocock engineering skills used by the group's manager roles (pm / dm / tm / scoutM) and the dispatch subagents (`pde` / `de` / `te` / `se`), assigned to the four departments according to **mattpocock's semantics**. Subagents do not get their own skill files; the skills they use are written into the dispatch prompt by the manager that spawns them (templates in `dm/templates.md`, `tm/templates.md`, `scoutM/templates.md`, `pm/SKILL.md`). Each role's SKILL.md writes only the few it wires up, and does not restate them here.
 
 **Upstream repository**: [`mattpocock/skills`](https://github.com/mattpocock/skills) (GitHub, `main` branch). Every skill name in the table below links to its raw `SKILL.md` address on `main` (raw root `https://raw.githubusercontent.com/mattpocock/skills/main/`); click through to read the upstream original. **Upstream is the single source of truth**.
 
@@ -10,12 +10,12 @@ The mattpocock engineering skills used by the group's manager roles (pm / dm / t
 
 | Skill | Type | Semantics | Who runs it |
 |---|---|---|---|
-| [`grilling`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grilling/SKILL.md) | MODEL | The interrogation primitive, the shared base for `grill-me` / `grill-with-docs` / `triage` / `wayfinder` / `improve-codebase-architecture` | PM |
-| [`grill-me`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grill-me/SKILL.md) | USER | Interrogation for non-code scenarios | user types it |
-| [`grill-with-docs`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/grill-with-docs/SKILL.md) | USER | Interrogation + synchronously update `CONTEXT.md` | user types it, PM takes over |
+| [`grilling`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grilling/SKILL.md) | MODEL | The interrogation primitive, the shared base for `grill-me` / `grill-with-docs` / `triage` / `wayfinder` / `improve-codebase-architecture` | `pde` (dispatched by PM) |
+| [`grill-me`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grill-me/SKILL.md) | USER | Interrogation for non-code scenarios | `pde` (dispatched by PM) or the user |
+| [`grill-with-docs`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/grill-with-docs/SKILL.md) | USER | Interrogation + synchronously update `CONTEXT.md` | `pde` (dispatched by PM) or the user |
 | [`domain-modeling`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/domain-modeling/SKILL.md) | MODEL | Proactively build and sharpen the domain model: challenge terminology, stress-test boundary cases, update `CONTEXT.md` | PM |
 | [`prototype`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/prototype/SKILL.md) | MODEL | A throwaway prototype answers a design question (state/logic kind, or a UI variant) | PM (decides whether to do it) |
-| [`to-spec`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/to-spec/SKILL.md) | USER | Conversation -> SPEC, published to the tracker (**already internalized as [`spec-format.md`](spec-format.md)**) | PM |
+| [`to-spec`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/to-spec/SKILL.md) | USER | Conversation -> SPEC, published to the tracker (**already internalized as [`spec-format.md`](spec-format.md)**) | `pde` talks, PM writes |
 | [`writing-for-agents`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/writing-for-agents/SKILL.md) | MODEL | Write documents "for agents to read" (a SPEC is exactly this kind) | PM |
 | [`to-questionnaire`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/to-questionnaire/SKILL.md) | USER | Decisions you cannot answer yourself -> a questionnaire for the person who can answer them | user types it, PM takes over |
 | [`triage`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/triage/SKILL.md) | USER | An issue goes through the triage role state machine (needs label configuration) | user types it, PM takes over |
