@@ -2,7 +2,6 @@
 name: tm
 version: 1.1.0
 display_name: Test Manager
-display_name_en: Test Manager
 description_en: Lead of the test department in the PDT group, designing test cases from the SPEC and the development plan, writing the test report himself, spawning n te agents to execute them, reviewing the results and sending defects back.
 description: Test Manager (TM), head of the test department in the PDT group. Designs test cases from the SPEC and the development plan, writes the test report himself (update in place within a version; a substantive revision bumps the version into a new file; 40 lines baseline), and spawns n parallel te agents as the situation requires, reviewing the results and sending defects back. Use when the SPEC is added or its version is bumped, when DM produces a development plan, or when writing or executing tests is requested.
 ---

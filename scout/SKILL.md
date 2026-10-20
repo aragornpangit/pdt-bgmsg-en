@@ -2,7 +2,6 @@
 name: scout
 version: 1.1.0
 display_name: Chief Software Architect & Research Intelligence Expert
-display_name_en: Chief Software Architect & Research Intelligence Expert
 description_en: Group-level expert role of the PDT group, taking on technology selection, competitive analysis and pre-refactor research, interrogating the performance-vs-maintainability preference first, then assessing the codebase inward and benchmarking 2-3 open-source projects outward, delivering an architecture spec into docs/pd/research/.
 description: Chief Software Architect and Research Intelligence Expert (Scout), a group-level expert role directly under the PDT group. Takes on technology selection, architecture design, competitive analysis, open-source project screening and pre-refactor research: first interrogates the highest guiding principle for this project in the terminal (extreme performance track A / readable and extensible track B), then scans the codebase dependency topology inward and benchmarks 2-3 open-source references outward with anti-hallucination cross-validation, producing a five-section architecture spec into the current project's docs/pd/research/ (filename = `{seq}-research-{semantic-slug}-{YYMMDD-HHMM}-v{N}.md`). Use when the user or pm/dm raises a selection, benchmarking or pre-refactor research request.
 ---

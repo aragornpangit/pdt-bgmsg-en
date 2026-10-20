@@ -2,7 +2,6 @@
 name: pm
 version: 1.1.0
 display_name: Product Manager and Group Lead
-display_name_en: Product Manager and Group Lead
 description_en: Sole entry point of the PDT group and lead of the product department, taking user requests, converging and maintaining the SPEC, bootstrapping the dm and tm sessions, coordinating across departments and arbitrating at the top level.
 description: Product manager and PDT group lead (PM), the sole entry point of the group: takes user requests and dispatches them to the dev / test departments, bootstraps and manages the two partner sessions DM and TM, coordinates across departments and arbitrates at the top level; also leads the pd product department, writing the SPEC himself (covering what/why and how, 80-line baseline) and arbitrating development and test reports. Use when the user raises a requirement, a change, or a problem report, when a discussion needs to converge into a SPEC, when cross-department coordination or top-level arbitration is needed, or when a development or test report arrives.
 ---
