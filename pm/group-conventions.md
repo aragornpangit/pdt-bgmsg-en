@@ -29,7 +29,7 @@ pdt-group (top-level department, owner pm: user entry point + product manager)
 **Between pm / dm / tm, and from pm / dm → scoutM, always use targeted `herdr` direct connection** (CLI syntax in the herdr skill itself), talk directly, no third-party relay. scoutM only accepts dispatches from the user or pm / dm, and does not chime in on its own.
 
 - Status, progress, conclusions, defect send-backs, arbitration requests all go through herdr messages
-- Messages are self-contained: one-sentence summary + artifact path + requested action
+- **The inbox file is self-contained**: one-sentence summary + artifact path + requested action (the herdr message is only the doorbell)
 - **Locate the partner before sending a message (hard requirement)**: first run `herdr tab list` to list the labels of all current tabs, confirm the recipient label is in the list; **a label is only for finding the person, it cannot be used directly as the message target** (reason and the full three steps below).
 
 - **herdr agent targets only accept an "agent name" or a "pane ID", not a tab label** (measured: `herdr agent get scoutM` returns `agent_not_found`, while the `scoutM` label is clearly present in `herdr tab list`). Full three steps to locate a partner:
@@ -54,6 +54,13 @@ pdt-group (top-level department, owner pm: user entry point + product manager)
      - **Do not add `--wait`**: it waits synchronously and pulls the recipient's whole turn of output back, which burns tokens for nothing
      - **Do not verify delivery with `agent read`**: reading pane output floods the context; ask the recipient for a one-line receipt instead ("got it, will report in X minutes")
      - **Merge a batch into one message**: say several things in one delivery instead of splitting them into a back-and-forth
+
+**All message bodies go through an inbox file (hard)**: the herdr message is only the doorbell saying "you have mail"; never stuff the body into the message.
+
+1. **Write the file**: drop it into the recipient's inbox at `docs/<recipient-role>/inbox/{seq}-{direction}-{semantic-slug}-{YYMMDD-HHMM}-v{N}.md`. Direction = sender2recipient, one of `pm2dm` / `dm2pm` / `pm2tm` / `tm2pm` / `dm2tm` / `tm2dm` / `pm2scoutM` / `scoutM2pm` / `scoutM2dm` / `dm2scoutM`. `{seq}` **reuses the requirement chain's number, never a new one** (see team discipline item 14); for convention talk unrelated to a requirement, use the number of the requirement in flight
+2. **Ring the doorbell**: `herdr agent prompt <target> "you have a new message {filename} under docs/<recipient-role>/inbox/"` (fallback as above: the pane channel)
+3. **Recipient**: read the file, reply with a one-line receipt, then **delete the file immediately** (read and delete; the inbox may only ever hold unread messages)
+4. **Not committed**: the inbox is a runtime channel, not a deliverable. The project's `.gitignore` must contain `docs/*/inbox/`; `mkdir -p` the inbox when it is missing
 
   For sessions started with `herdr agent start <name>`, that `<name>` can be used directly; agents started manually by the user are unnamed, and only `pane_id` works. **Never write a label or ID from memory, never hardcode an ID** (IDs may change each session, always look them up at use time).
 - **Recipient label not in `herdr tab list` ⇒ do not send**: first complete the session per "Sessions and labels" (completion flow in [`team-bootstrap.md`](team-bootstrap.md)), confirm readiness, then send; do not retry repeatedly against a session that does not exist
@@ -86,6 +93,7 @@ pdt-group (top-level department, owner pm: user entry point + product manager)
 | Test report | `docs/test/report/{seq}-testReport-{semantic-slug}-{timestamp}-v{N}.md` | 40 lines (baseline) | TM |
 | Evidence directory | `docs/test/evidence/{seq}-testReport-{semantic-slug}-ev/` | as needed | TM |
 | Research report | `docs/scout/{seq}-scout-{semantic-slug}-{timestamp}-v{N}.md` | as needed | **ScoutM** (PM dispatches, does not write it themselves) |
+| Inbox message | `docs/<recipient-role>/inbox/{seq}-{direction}-{semantic-slug}-{timestamp}-v{N}.md` | as needed (deleted once read) | sender writes, recipient deletes after reading |
 | Handoff document | `docs/pd/handoff/pm-{semantic-slug}-{timestamp}-v{N}.md`<br>`docs/dev/handoff/dm-{semantic-slug}-{timestamp}-v{N}.md`<br>`docs/test/handoff/tm-{semantic-slug}-{timestamp}-v{N}.md` | 25 lines (baseline) | PM / DM / TM each write their own |
 | Domain terminology | `CONTEXT.md` | as needed | PM |
 | Status board (fallback, see below) | `docs/status.md` | one line per requirement | three parties each own their column |
@@ -166,12 +174,12 @@ pdt-group (top-level department, owner pm: user entry point + product manager)
 - **Same family**: do not retry repeatedly when a tool cannot connect; `git commit -- <path>` failing loudly on untracked files is better than silently missing files
 - **Criterion**: after a failure the workspace / files are exactly as before the operation (machine-checkable: failure ⇒ `git status` identical to before)
 
-## File naming (unified format for the four artifact types)
+## File naming (unified format for the five artifact types)
 
 `{seq}-{prefix}-{semantic-slug}-{YYMMDD-HHMM}-v{N}.md`
 
 - **`{seq}` goes at the start of the filename, following the SPEC's sequence number**: PM takes the number when creating the SPEC (starting at 001, mutual exclusion per team discipline 14); **the development plan and test report reuse the seq of the same SPEC**, no separate number; research reports are not attached to the SPEC chain and use their own cumulative serial number
-- **Four prefix choices**: `spec` (SPEC) / `devPlan` (development plan and tickets) / `testReport` (test report) / `scoutM` (research report, written by ScoutM, dispatched by PM). **Handoff documents are not one of these four**, see the "Handoff" section for naming
+- **Five prefix choices**: `spec` (SPEC) / `devPlan` (development plan and tickets) / `testReport` (test report) / `scoutM` (research report, written by ScoutM, dispatched by PM) / **direction** (inbox messages, values in the "Communication" section, e.g. `pm2dm`). **Handoff documents are not one of these five**, see the "Handoff" section for naming
 - **Semantic slug**: English words joined by hyphens, no more than 5 words (e.g. `user-sync`), expressing the target semantics of this file
 - **Timestamp**: the moment this version was first written to disk, format `YYMMDD-HHMM` (two-digit year, two-digit month, two-digit day, two-digit hour, two-digit minute)
 - **Version number `v{N}`, starting from v1**: **small in-version updates** (appending cases, per-ticket status, progress) modify the same file in place, no rename; **substantive revisions bump the version into a new file** (new timestamp, `v{N+1}`, same seq), and the old file's header is marked in place "superseded by vX" (trace versus residue: the old literal is explicitly voided, do not use deletion to pretend it never happened)
@@ -210,7 +218,7 @@ By default **do not create or maintain** `docs/status.md`. Only when herdr is co
 - **Semantic slug**: English words joined by hyphens, no more than 5 words, summarizing the topic of this handoff (e.g. `user-sync`)
 - **Timestamp**: the moment of writing to disk, `YYMMDD-HHMM` (two-digit year, month, day, hour, minute)
 - **Version number `v{N}` starting from v1**: small in-session additions modify the same file in place, no rename; when the handoff content is substantially replaced, create a new version file (new timestamp, `v{N+1}`), and mark the old file's header **in place "superseded by vX"**
-- **No `{seq}`**: handoff documents are not one of the four artifact types (SPEC / development plan / test report / research report) and are not attached to the requirement chain seq
+- **No `{seq}`**: handoff documents are not one of the five artifact types (SPEC / development plan / test report / research report / inbox message) and are not attached to the requirement chain seq
 - **Content**: 25 lines baseline, delete redundancy first when over; write only the minimum sufficient information for the successor; commit first, then push
 - **Subagents (`de` / `te`) do not write handoffs**; the manager consolidates everything
 - `mkdir -p` when the directory is missing
