@@ -36,14 +36,14 @@ Ask the user in only two cases: no variable matched at all; or the detected term
   "sessions": {
     "dm": { "id": "dm", "created": "<ISO time>", "cwd": "/home/user/proj" },
     "tm": { "id": "tm", "created": "<ISO time>", "cwd": "/home/user/proj" },
-    "scout": { "id": "scout", "created": "<ISO time>", "cwd": "/home/user/proj" }
+    "scoutM": { "id": "scoutM", "created": "<ISO time>", "cwd": "/home/user/proj" }
   }
 }
 ```
 
 - `terminal`: probe result or user choice, do not ask again once written
 - `agent_cmd`: the command line that starts the partner agent, defaults to the same agent PM itself uses; if different, ask the user once
-- `sessions`: records only partner sessions created by PM (not PM itself), label set `{dm, tm, scout}`; `scout` is created on demand, do not write this key if it was never started. For listable terminals the live command is authoritative; for non-listable terminals this record is a clue only, not proof of liveness
+- `sessions`: records only partner sessions created by PM (not PM itself), label set `{dm, tm, scoutM}`; `scoutM` is created on demand, do not write this key if it was never started. For listable terminals the live command is authoritative; for non-listable terminals this record is a clue only, not proof of liveness
 
 ## 3. Roll call: detect whether dm / tm are running
 
@@ -78,7 +78,7 @@ herdr agent prompt dm "<role assignment message>" --wait --timeout 60000
 
 The tab `--label` is the role name (`herdr tab list` locates the partner by it). `tm` the same way, `--label tm`. For CLI syntax, lifecycle states and reading IDs see the herdr skill.
 
-**`scout` is started on demand** (only when a research-type request comes in): same way, `herdr tab create --label scout --cwd "$PWD" --no-focus`, but the user starts their own harness, **do not run `agent start` in it**. After starting, register the label in `.pdt/team.json`, ask the user to start their harness in that tab, and dispatch work only after they confirm it is ready. Do not send messages and do not retry repeatedly before the harness is up.
+**`scoutM` is started on demand** (only when a research-type request comes in): same way, `herdr tab create --label scoutM --cwd "$PWD" --no-focus`, but the user starts their own harness, **do not run `agent start` in it**. After starting, register the label in `.pdt/team.json`, ask the user to start their harness in that tab, and dispatch work only after they confirm it is ready. Do not send messages and do not retry repeatedly before the harness is up.
 
 **The two channels of a partner session**: a herdr agent target only accepts an **agent name** or a **pane ID**, **a tab label is not an agent target** (`herdr agent prompt <label>` against it reports `agent_not_found`). Ones started with `herdr agent start <name>` have a name, use the name directly; ones the user started manually **have no name**, only the pane ID works:
 

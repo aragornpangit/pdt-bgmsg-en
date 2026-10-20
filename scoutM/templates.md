@@ -1,4 +1,4 @@
-# Scout companion templates (TUI interrogation + output document specification)
+# ScoutM companion templates (TUI interrogation + output document specification)
 
 > The single full-text carrier; [`SKILL.md`](SKILL.md) keeps a pointer only. Output documents must strictly use the Markdown format of **single-sentence short lines, high-contrast bold, no nested lists**, ensuring the best terminal scrolling experience when viewed through `less`, `glow` or `bat`.
 
