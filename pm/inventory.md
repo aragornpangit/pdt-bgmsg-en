@@ -1,6 +1,6 @@
 # pdt-group skill inventory
 
-The mattpocock engineering skills used by the group's manager roles (pm / dm / tm / scout-m) and the dispatch subagents (`pde` / `de` / `te` / `se`), assigned to the four departments according to **mattpocock's semantics**. Subagents do not get their own skill files; the skills they use are written into the dispatch prompt by the manager that spawns them (templates in `pm/templates.md`, `dm/templates.md`, `tm/templates.md`, `scout-m/templates.md`). Each role's SKILL.md writes only the few it wires up, and does not restate them here.
+The mattpocock engineering skills used by the group's manager roles (pm / dm / tm / rm) and the dispatch subagents (`pde` / `de` / `te` / `re`), assigned to departments and cross-role work according to **mattpocock's semantics** (the research skill is shared by PM and rm). Subagents do not get their own skill files; the skills they use are written into the dispatch prompt by the manager that spawns them (templates in `pm/templates.md`, `dm/templates.md`, `tm/templates.md`, `rm/templates.md`). Each role's SKILL.md writes only the few it wires up, and does not restate them here.
 
 **Upstream repository**: [`mattpocock/skills`](https://github.com/mattpocock/skills) (GitHub, `main` branch). Every skill name in the table below links to its raw `SKILL.md` address on `main` (raw root `https://raw.githubusercontent.com/mattpocock/skills/main/`); click through to read the upstream original. **Upstream is the single source of truth**.
 
@@ -54,7 +54,7 @@ The mattpocock engineering skills used by the group's manager roles (pm / dm / t
 | Skill | Type | Owner | Note |
 |---|---|---|---|
 | [`ask-matt`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/ask-matt/SKILL.md) | USER | pm | Router: ask "which skill / process should I use" |
-| [`research`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md) | MODEL | PM / scout-m | Evidence gathering and research: PM uses it when it looks facts up itself; **scout-m writes the address into the prompt when dispatching `se`**, and `se` researches per that skill plus an anti-hallucination cross-check, with output in `docs/scout/` |
+| [`research`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/research/SKILL.md) | MODEL | PM / rm | Evidence gathering and research: PM uses it when it looks facts up itself; **rm writes the address into the prompt when dispatching `re`**, and `re` researches per that skill plus an anti-hallucination cross-check, with output in `docs/research/` |
 | [`setup-matt-pocock-skills`](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/setup-matt-pocock-skills/SKILL.md) | USER | one-time | Configure issue tracker / triage labels / doc directory, run once per repo |
 
 **Not included** (unrelated to the PDT process, or personal toolchains): `teach`, `scaffold-exercises`, `pr` (write the PR body), `implement-spec`, `retro` (upstream has finalized it and moved it into the `engineering/` bucket, not needed by the process for now), plus the not-yet-finalized `claude-handoff`, `loop-me`, `setup-ts-deep-modules`, `writing-beats`, `writing-fragments`, `writing-shape` in the `in-progress/` bucket.

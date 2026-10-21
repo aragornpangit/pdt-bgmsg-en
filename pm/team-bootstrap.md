@@ -1,6 +1,6 @@
-# Bootstrapping the group (DM / TM / scout-m sessions)
+# Bootstrapping the group (DM / TM / rm sessions)
 
-PM reads this reference only at startup: probe the terminal, detect partner sessions, create sessions, assign roles. PM is the group entry point, it does not open new sessions for itself, it only tops up `dm` / `tm`; `scout-m` is started on demand (see section 4).
+PM reads this reference only at startup: probe the terminal, detect partner sessions, create sessions, assign roles. PM is the group entry point, it does not open new sessions for itself, it only tops up `dm` / `tm`; `rm` is started on demand (see section 4).
 
 ## 1. Probe the terminal emulator
 
@@ -36,14 +36,14 @@ Ask the user in only two cases: no variable matched at all; or the detected term
   "sessions": {
     "dm": { "id": "dm", "created": "<ISO time>", "cwd": "/home/user/proj" },
     "tm": { "id": "tm", "created": "<ISO time>", "cwd": "/home/user/proj" },
-    "scout-m": { "id": "scout-m", "created": "<ISO time>", "cwd": "/home/user/proj" }
+    "rm": { "id": "rm", "created": "<ISO time>", "cwd": "/home/user/proj" }
   }
 }
 ```
 
 - `terminal`: probe result or user choice, do not ask again once written
 - `agent_cmd`: the command line that starts the partner agent, defaults to the same agent PM itself uses; if different, ask the user once
-- `sessions`: records only partner sessions created by PM (not PM itself), label set `{dm, tm, scout-m}`; `scout-m` is created on demand, do not write this key if it was never started. For listable terminals the live command is authoritative; for non-listable terminals this record is a clue only, not proof of liveness
+- `sessions`: records only partner sessions created by PM (not PM itself), label set `{dm, tm, rm}`; `rm` is created on demand, do not write this key if it was never started. In the same round, create the **project-root inbox skeleton** (a runtime channel, not committed): `mkdir -p inbox/{pm,dm,tm,rm}`, and confirm `.gitignore` contains `inbox/`. See the "Communication" section of [`group-conventions.md`](group-conventions.md). For listable terminals the live command is authoritative; for non-listable terminals this record is a clue only, not proof of liveness
 
 ## 3. Roll call: detect whether dm / tm are running
 
@@ -78,7 +78,7 @@ herdr agent prompt dm "<role assignment message>"
 
 The tab `--label` is the role name (`herdr tab list` locates the partner by it). `tm` the same way, `--label tm`. For CLI syntax, lifecycle states and reading IDs see the herdr skill.
 
-**`scout-m` is started on demand** (only when a research-type request comes in): same way, `herdr tab create --label scout-m --cwd "$PWD" --no-focus`, but the user starts their own harness, **do not run `agent start` in it**. After starting, register the label in `.pdt/team.json`, ask the user to start their harness in that tab, and dispatch work only after they confirm it is ready. Do not send messages and do not retry repeatedly before the harness is up.
+**`rm` is started on demand** (only when a research-type request comes in): same way, `herdr tab create --label rm --cwd "$PWD" --no-focus`, but the user starts their own harness, **do not run `agent start` in it**. After starting, register the label in `.pdt/team.json`, ask the user to start their harness in that tab, and dispatch work only after they confirm it is ready. Do not send messages and do not retry repeatedly before the harness is up.
 
 **How to message a partner**: locating the label -> pane ID -> `herdr agent prompt` is the full three-step procedure, together with the fallback channel and the token-saving rules, **whose only full text is in the "Communication" section of [`group-conventions.md`](group-conventions.md)**; this file does not restate it.
 
@@ -121,8 +121,8 @@ DM version:
 ```
 You are DM (development manager, head of the dev development department). Read the skill file ~/.agents/skills/dm/SKILL.md in full before doing anything.
 Project root: <cwd>.
-Start action: wait for pm to dispatch; once received, set design decisions per the skill workflow and write docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{timestamp}-v1.md yourself (50-line baseline, seq reuses the SPEC number).
-Communication: direct connection with pm / tm, delivered per the "Communication" section of group-conventions (body goes to the inbox file); no status documents, no document every round.
+Start action: wait for pm to dispatch; once received, set design decisions per the skill workflow and write docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{YYMMDDHHMM}-v1.md yourself (50-line baseline, seq reuses the SPEC number).
+Communication: direct connection with pm / tm, delivered per the "Communication" section of group-conventions (body goes to inbox/dm/, scan `ls -A inbox/dm/` at the start of every round, delete once read, no inbox mail receipt); no status documents, no document every round.
 Report to pm once ready: session name, cwd, ready state. When blocked, include file:line or command output.
 ```
 
@@ -131,8 +131,8 @@ TM version:
 ```
 You are TM (test manager, head of the test test department). Read the skill file ~/.agents/skills/tm/SKILL.md in full before doing anything.
 Project root: <cwd>.
-Start action: wait for pm to dispatch; once received, read the latest SPEC under docs/pd/spec/ and the latest plan under docs/dev/plan/ ({spec-seq}-devPlan-*.md), design cases per the skill workflow, and write docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v1.md yourself (40-line baseline, cases and results in the same table); derive n parallel te per the actual situation.
-Communication: direct connection with pm / dm, delivered per the "Communication" section of group-conventions (body goes to the inbox file); no status documents, no document every round.
+Start action: wait for pm to dispatch; once received, read the latest SPEC under docs/pd/spec/ and the latest plan under docs/dev/plan/ ({spec-seq}-devPlan-*.md), design cases per the skill workflow, and write docs/test/report/{spec-seq}-testReport-{semantic-slug}-{YYMMDDHHMM}-v1.md yourself (40-line baseline, cases and results in the same table); derive n parallel te per the actual situation.
+Communication: direct connection with pm / dm, delivered per the "Communication" section of group-conventions (body goes to inbox/tm/, scan `ls -A inbox/tm/` at the start of every round, delete once read, no inbox mail receipt); no status documents, no document every round.
 Report to pm once ready: session name, cwd, ready state. When blocked, include file:line or command output.
 ```
 
@@ -156,7 +156,7 @@ You are DM (development manager, head of the dev development department). Read t
 
 Project root: {project root}
 Your input: the latest SPEC under docs/pd/spec/; for fix-type work, the latest report under docs/test/report/
-Your output: docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{timestamp}-v1.md (development plan and progress, update in place within the version, 50-line baseline, you write it yourself; seq reuses the SPEC number)
+Your output: docs/dev/plan/{spec-seq}-devPlan-{semantic-slug}-{YYMMDDHHMM}-v1.md (development plan and progress, update in place within the version, 50-line baseline, you write it yourself; seq reuses the SPEC number)
 Your subagents: de x n (n = number of parallelisable tickets, derive per the actual situation), they report to you only
 
 Communication (direct connection between pm / dm / tm, managers talk to each other directly; delivery per the "Communication" section of group-conventions, body goes to the inbox file):
@@ -174,7 +174,7 @@ You are TM (test manager, head of the test test department). Read the skill file
 
 Project root: {project root}
 Your input: the latest SPEC under docs/pd/spec/, the latest plan under docs/dev/plan/ ({spec-seq}-devPlan-*.md)
-Your output: docs/test/report/{spec-seq}-testReport-{semantic-slug}-{timestamp}-v1.md (test report, cases and results in the same table, 40-line baseline, you write it yourself; seq reuses the SPEC number)
+Your output: docs/test/report/{spec-seq}-testReport-{semantic-slug}-{YYMMDDHHMM}-v1.md (test report, cases and results in the same table, 40-line baseline, you write it yourself; seq reuses the SPEC number)
 Your subagents: te x n (n = number of parallelisable batches, derive per the actual situation), they report to you only
 
 Communication (direct connection between pm / dm / tm, managers talk to each other directly; delivery per the "Communication" section of group-conventions, body goes to the inbox file):

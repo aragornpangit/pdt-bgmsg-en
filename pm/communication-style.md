@@ -2,7 +2,7 @@
 
 > This file is the **single detailed version** of the group-wide "expression" discipline (jargon mapping table + grep self-check + two exceptions). For the discipline clauses, see "Expression (all roles)" in [`group-conventions.md`](group-conventions.md). Each role's SKILL.md no longer maintains its own mapping table.
 > Source: user instruction: **"Use less software engineering jargon, switch to a simple, clear style, so that an engineer who knows a little software engineering can understand it"**; additional requirement: **"Talking, writing files, writing comments: all should use less jargon, be simple and clear"** (scope expanded from speech/messages to everything written down).
-> Scope: all expression aimed at the **user** + dispatch and arbitration conclusions aimed at the **team** (DM / TM / de / te) + **all text written into the repository** (SPEC, CONTEXT.md, commit messages, annotation notes, and other files) + **code/script comments**.
+> Scope: all expression aimed at the **user** + dispatch and arbitration conclusions aimed at the **team** (DM / TM / rm / de / te / re / pde) + **all text written into the repository** (SPEC, CONTEXT.md, commit messages, annotation notes, and other files) + **code/script comments**.
 
 ## 1. Reader profile
 

@@ -9,7 +9,7 @@ The SPEC is **the product department's only deliverable document** and the start
 ```markdown
 # SPEC: {feature title}
 
-- Number: {spec-seq} | Version: v1 | Written: {YYYY-MM-DD HH:MM:SS}
+- Number: {spec-seq} | Version: v1 | Written: {YYMMDDHHMM}
 - Preceding SPEC: {related number, delete this line if none}
 
 ## 1. Problem Statement
